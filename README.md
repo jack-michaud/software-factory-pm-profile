@@ -32,7 +32,7 @@ Public/private boundary: credentials, runtime state, logs, memories, sessions, K
 
 This distribution owns `config.yaml`. The file pins model execution to `gpt-5.5` via provider `openai-codex` using `chat_completions`, enables the public-safe `hermes-cli` toolset, and points `skills.external_dirs` at `../../skills` so controlled installs can reuse shared skill overlays without vendoring private/local skill trees.
 
-Authority for the `softwarefactorypm` role is governed by `SOUL.md` plus the role-specific bootstrap skill. This parity wave does not add a `role-capability-manifest.yaml` because the corresponding meta profile also uses SOUL as its authority source; publisher/docs remain the manifest-backed profiles.
+Authority for this role is governed by `SOUL.md` plus the role-specific bootstrap skill. Publisher/docs profiles additionally include `role-capability-manifest.yaml`.
 
 ## Publication provenance
 
