@@ -7,7 +7,7 @@ source:
   type: monorepo-generated
   monorepo: software-factory-profiles
   role: pm
-  generated_repo: hermes-softwarefactorypm-profile
+  generated_repo: software-factory-pm-profile
 env_requires:
   - name: SOFTWARE_FACTORY_DOCS_SPRITE_NAME
     description: "Optional dedicated Software Factory docs sprite name for PM-created docs publication/deployment tasks; set to hermes-sf-docs for this environment when deployed docs work is expected."
