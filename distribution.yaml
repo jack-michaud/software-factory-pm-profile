@@ -20,6 +20,7 @@ distribution_owned:
   - LICENSE
   - CHANGELOG.md
   - skills/devops/software-factory/
+  - skills/devops/remote-sprite-development/
   - skills/devops/kanban-worker/
   - skills/devops/kanban-profile-workflow/
   - skills/autonomous-ai-agents/hermes-agent/

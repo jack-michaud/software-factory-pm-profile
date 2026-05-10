@@ -47,3 +47,7 @@ This repository is generated. File issues and feature requests on https://github
 ## Optional docs deployment target
 
 This distribution declares `SOFTWARE_FACTORY_DOCS_SPRITE_NAME` as an optional env var. Set it in the installed profile's user-owned `.env` only when PM-created docs publication/deployment tasks should target a dedicated docs sprite. For this environment the expected non-secret value is `hermes-sf-docs`. Distribution installs/updates must not overwrite `.env`; use `distribution.yaml` and this guidance as the contract.
+
+## Remote Sprite Development
+
+This distribution includes the `remote-sprite-development` skill. Install/update the same public distribution for both production and matching meta profiles (for example `softwarefactorybuilder` and `metasoftwarefactorybuilder`) so remote Sprite task routing, checkpoint, evidence, rollback, and review contracts are loadable without private local profile state.
