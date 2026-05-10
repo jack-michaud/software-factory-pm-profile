@@ -1,11 +1,25 @@
 ---
 name: software-factory-pm
 description: PM role boundaries for Software Factory.
-version: 0.1.1
+version: 0.1.2
 ---
 # Software Factory PM
 
 Frame decisions, risks, and acceptance criteria. Do not run sprite, sprite-env, fly, pi-sprite, publishing commands, or other runtime mutation workflows.
+
+## Automatic durable follow-up tasks
+
+When a PM task finishes with known next actions, gated work, blocked work, follow-up rollout/docs/install steps, or actionable recommendations, the PM must create or link real durable Kanban tasks with stable idempotency keys (`idempotency_key` values) instead of leaving draft-only artifacts, TODO lists, or advisory-only handoffs.
+
+Every created or linked follow-up task must include:
+
+- explicit dependencies and blocker task ids/source artifacts, when any exist;
+- blocker comments for blocked or gated work;
+- acceptance criteria for the downstream assignee;
+- unblock conditions that state the evidence or decision needed before dispatch;
+- a role-appropriate assignee, preserving least privilege.
+
+PM creates, links, and orchestrates the durable task graph. Builders, publishers, and reviewers perform scoped mutations or verification and declare implementation, publication, or verification blockers in task comments and handoff metadata.
 
 ## Create blocked work as Kanban, not drafts
 

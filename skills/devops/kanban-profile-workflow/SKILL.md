@@ -1,11 +1,17 @@
 ---
 name: kanban-profile-workflow
 description: Public multi-profile Kanban workflow conventions.
-version: 0.1.1
+version: 0.1.2
 ---
 # Kanban Profile Workflow
 
 Use Kanban for durable cross-profile work. Keep PM, builder, orchestrator, reviewer, and publisher responsibilities separate. Generated public artifacts must be independently validated before publication.
+
+## Automatic durable follow-up tasks
+
+When a task finishes with known next actions, gated work, blocked work, follow-up rollout/docs/install steps, or actionable recommendations, the responsible PM/profile must create or link real durable Kanban tasks with stable idempotency keys (`idempotency_key` values). Do not leave the next state as a draft-only artifact, markdown TODO, or advisory-only recommendation.
+
+Those tasks must name explicit dependencies/blockers, include blocker comments for blocked or gated work, define acceptance criteria, state unblock conditions, and use a role-appropriate assignee that owns the next action. Preserve least privilege: PM profiles create, link, and orchestrate; builders/publishers/reviewers perform scoped mutations or verification and declare blockers.
 
 ## Durable task creation and blockers
 
