@@ -1,31 +1,28 @@
 ---
 name: kanban-profile-workflow
 description: Public multi-profile Kanban workflow conventions.
-version: 0.1.2
+version: 0.1.1
 ---
 # Kanban Profile Workflow
 
-Use Kanban for durable cross-profile work. Keep PM, builder, orchestrator, reviewer, and publisher responsibilities separate. Generated public artifacts must be independently validated before publication.
+Use Kanban for durable cross-profile work. Keep PM, builder, orchestrator, reviewer, publisher, installer/profile-mutation, and docs responsibilities separate. Generated public artifacts must be independently validated before publication.
 
-## Automatic durable follow-up tasks
+## Approval/Decision Gates for Blocked Seeds
 
-When a task finishes with known next actions, gated work, blocked work, follow-up rollout/docs/install steps, or actionable recommendations, the responsible PM/profile must create or link real durable Kanban tasks with stable idempotency keys (`idempotency_key` values). Do not leave the next state as a draft-only artifact, markdown TODO, or advisory-only recommendation.
+Approval or decision gates that unblock blocked work must not depend on the blocked task. If original work is blocked waiting for human/orchestrator approval, target-coordinate confirmation, credential-scope approval, or another external/manual decision, create the approval/decision task as an unparented sibling, or as a parent/unblocker of future execution tasks. Do not make the approval gate a child of the blocked seed.
 
-Those tasks must name explicit dependencies/blockers, include blocker comments for blocked or gated work, define acceptance criteria, state unblock conditions, and use a role-appropriate assignee that owns the next action. Preserve least privilege: PM profiles create, link, and orchestrate; builders/publishers/reviewers perform scoped mutations or verification and declare blockers.
+Dependency direction matters:
 
-## Durable task creation and blockers
+- Use child dependencies for work that should wait until the parent is completed.
+- Use parent dependencies for concrete work that must finish before another task can run.
+- Use `blocked` status/commentary for external/manual blockers when no concrete Kanban task exists yet.
 
-Do not leave draft-only artifacts when work is ready to track but blocked by gates. Create concrete Kanban tasks with stable `idempotency_key` values so retries do not duplicate work. If a dependency or gate is not green, create the task as triage/blocked rather than hiding it in a markdown draft, then add explicit comments that name the blocker task ids, missing evidence, and the condition that unblocks dispatch.
+After approval, record the decision on the blocked seed, then unblock/re-dispatch the seed or have PM create the execution graph with the approval gate as a dependency where appropriate. If an accidental deadlocked dependent gate is created, comment/supersede it, create the correctly unparented/sibling approval gate, and preserve the lesson in source-controlled profile guidance.
 
-Builders and reviewers should not silently work around missing prerequisites. When implementation or verification is blocked, declare the blocker in the task thread and handoff metadata: required artifact, owning profile, suspected failure class, and the concrete evidence needed. PM then creates or links unblocking Kanban tasks instead of asking the same worker to guess.
+## Concrete Dependencies Instead of Stranded Blocking
 
-## PM escalation loop
+When a profile is waiting on concrete Kanban work, do not leave the waiting task in `blocked` as the normal state. Create or identify the remediation, reviewer, approval, install/update, docs, or other unblocker task; link that task as a parent dependency of the waiting task; then return the waiting task to todo/ready so the board can re-dispatch it automatically when all parents are GREEN/done.
 
-For PM-led Software Factory work, use this escalation sequence:
+Use `blocked` only for external/manual blockers where no concrete Kanban task exists yet, such as missing credentials, unknown authority, unavailable repo/distribution, or human approval that has not yet been captured as a task. If an external/manual blocker can be represented as an unblocker Kanban task, create or link that task instead of stranding downstream work.
 
-1. Inspect the board/task artifacts and any approved public source repos or generated profile distributions that are in scope. Do not read private profile state, secrets, local memories, sessions, or Kanban databases directly.
-2. Create or link concrete unblocking tasks with `idempotency_key` values and explicit acceptance criteria. Use triage/blocked state when gates are not green.
-3. Allow at most two PM <-> builder/reviewer resolution cycles for the same blocker family. Each cycle must leave comments and task handoff metadata with evidence reviewed, decision, blocker ids, and remaining question.
-4. After two unsuccessful cycles, escalate to the orchestrator or human with evidence: task ids, source paths/commits inspected, blocker classification, attempted unblocking tasks, and a precise decision request.
-
-Lesson from t_140783aa/t_21b2c8b6: meta PM correctly separated the experiment harness from the production tenant graph, but the next step was left as a draft-only seed. The corrected behavior is to create the durable production PM task with an idempotency key, hold it triaged/blocked until gates clear, and create/link the unblocking tasks that make those gates green.
+This preserves Software Factory role boundaries: PM/orchestrator routes durable work, builders edit source, reviewers gate, publishers publish authorized public artifacts, installer/profile-mutation tasks perform installs or runtime profile updates, and docs tasks produce release notes/documentation.

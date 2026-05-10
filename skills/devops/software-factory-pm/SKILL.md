@@ -49,3 +49,9 @@ Before creating any docs publication or deployed-docs task, confirm there is an 
 - an explicit non-secret docs sprite/site target supplied by the upstream task or human.
 
 When creating the downstream docs task, include the target source and value in the handoff, for example `target_env_var: SOFTWARE_FACTORY_DOCS_SPRITE_NAME` and `target_sprite: hermes-sf-docs`. The sprite/site name is not a secret, but profile `.env` files and unrelated environment values remain user-owned and must not be read, printed, or inferred. If no target is available, do not create deployed-docs work that assumes hidden shared state; create local docs/handoff work only, or block/skip deployment with a clear non-secret reason.
+
+## Approval/decision gates must not depend on blocked seeds
+
+When original work is blocked waiting for human/orchestrator approval, target-coordinate confirmation, credential-scope approval, or another external/manual decision, the approval/decision gate must be able to dispatch independently. Do not create that gate as a child of the blocked seed: child dependencies are for work that should wait until the parent is completed, so the gate would be stranded behind the task it is supposed to unblock.
+
+Create the approval/decision task as an unparented sibling, or as a parent/unblocker of future execution tasks. After the decision is available, record it on the blocked seed, then unblock/re-dispatch the seed or build the execution graph with the approval gate as a dependency where appropriate. Use parent dependencies for concrete prerequisites; use blocked status/commentary for external/manual blockers when there is not yet a concrete Kanban task. If a deadlocked approval child was accidentally created, comment/supersede it, create the correctly unparented/sibling approval gate, and source-control the lesson.
