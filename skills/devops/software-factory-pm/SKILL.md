@@ -31,7 +31,7 @@ When a Software Factory change is valid to track but blocked by gates, create th
 - acceptance criteria for the downstream assignee;
 - rollback/evidence requirements where runtime work is expected.
 
-For seed tasks, the PM can create the durable PM/builder/reviewer task while preserving role boundaries. Example lesson: in t_140783aa/t_21b2c8b6 the meta PM correctly decided that production PM owns the tenant delivery graph, but draft-only output hid the next state. Correct behavior is a durable production PM seed task, idempotently keyed, blocked until production profile install/test-profile validation/remote sprite guidance gates are green.
+For seed tasks, the PM can create the durable PM/builder/reviewer task while preserving role boundaries. Example lesson: when another PM role owns the tenant delivery graph, preserve that ownership boundary but still make the next state durable. Correct behavior is a durable PM seed task, idempotently keyed, blocked until production profile install/test-profile validation/remote sprite guidance gates are green; do not leave the next state as draft-only output.
 
 ## Source Maps for profile/source-update builder handoffs
 
@@ -106,4 +106,4 @@ When required, create a durable Kanban chain instead of doing local-only profile
 
 PM-required disposable validation must not be silently skipped. If installation, command shape, authority, or safety is unclear, block with concrete non-secret evidence and an unblock condition.
 
-Precedent to cite without exposing secrets or raw local state: t_7c6d97af showed disposable PM install can require the venv Hermes executable when a local wrapper is broken and should verify the root `distribution.yaml`; t_623387b6 showed a disposable PM profile can validate blocked-task escalation and preserve an approved artifact; t_f823dfba showed cleanup should use canonical Hermes profile delete after rollout/docs evidence is preserved.
+Reusable precedent language without exposing secrets or raw local state: disposable-profile validation evidence should include root distribution metadata such as `distribution.yaml` verification when relevant; wrapper fallback is acceptable when the local Hermes wrapper is broken, but evidence should name the approved fallback executable without leaking private state; disposable validation can preserve approved non-secret artifacts before cleanup; cleanup should use canonical Hermes profile deletion after rollout/docs evidence is preserved.
