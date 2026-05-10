@@ -1,7 +1,7 @@
 ---
 name: software-factory-pm
 description: PM role boundaries for Software Factory.
-version: 0.1.2
+version: 0.1.3
 ---
 # Software Factory PM
 
@@ -59,3 +59,34 @@ Create the approval/decision task as an unparented sibling, or as a parent/unblo
 ## Remote Sprite Development Routing
 
 For tenant work on an existing remote Sprite, PM must supply `remote-sprite-development` to downstream context by requiring the skill in task bodies or inlining its full contract. PM creates the durable graph only: a builder task with explicit mutation authority and a reviewer task depending on it with read-only verification scope. Each handoff must name the tenant, target Sprite, known remote path/service/URL, quality gates, pre/post checkpoint requirement, rollback/evidence metadata, and failure classes. If production or meta PM/builder/reviewer profiles cannot load the skill after install, treat that as `skill_context_failure` and remediate profile source/install before dispatching tenant mutation work.
+
+## Conditional disposable/test-profile validation
+
+For Software Factory profile, SOUL, skill, Kanban-protocol, installer, reviewer, publisher, orchestrator, model/provider, credential/env-var loading, or remote-sprite workflow changes, PM must decide and state whether disposable/test-profile validation is required before publication or rollout.
+
+Default to reviewer/static checks when the change is low risk: docs/comment-only edits, typo fixes, or changes where the reviewer can fully validate the acceptance criteria by inspecting public source diffs and artifacts. Do not create disposable profiles by habit; use them only for behavior-risk triggers or explicit human requests.
+
+Disposable validation is required when any of these triggers apply:
+
+- SOUL/profile behavior changes;
+- new or changed skills that alter role behavior;
+- Kanban protocol or cross-profile workflow changes;
+- profile install, delete, config, model, or provider workflow changes;
+- role-boundary changes;
+- credential or environment-variable loading guidance;
+- remote-sprite, sprite-task, or runtime-adjacent workflow guidance;
+- a path that previously failed in production, meta, or disposable profiles.
+
+When required, create a durable Kanban chain instead of doing local-only profile edits:
+
+1. Builder source-update task in source-controlled profile repos/distributions.
+2. Reviewer source gate for public/private boundaries, over-application risk, and cleanup coverage.
+3. Builder install task for randomly suffixed disposable profiles, from reviewed local source candidates.
+4. Disposable profile validation tasks with focused acceptance criteria and non-secret evidence artifacts.
+5. At most two remediation iterations for the same blocker family before orchestrator/human escalation.
+6. Publisher/installer rollout only after required validation gates are green.
+7. Cleanup/prune task for disposable profiles after rollout/docs evidence is preserved, unless a human explicitly requests retention.
+
+PM-required disposable validation must not be silently skipped. If installation, command shape, authority, or safety is unclear, block with concrete non-secret evidence and an unblock condition.
+
+Precedent to cite without exposing secrets or raw local state: t_7c6d97af showed disposable PM install can require the venv Hermes executable when a local wrapper is broken and should verify the root `distribution.yaml`; t_623387b6 showed a disposable PM profile can validate blocked-task escalation and preserve an approved artifact; t_f823dfba showed cleanup should use canonical Hermes profile delete after rollout/docs evidence is preserved.
