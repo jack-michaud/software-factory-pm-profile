@@ -41,3 +41,11 @@ Builders and reviewers should declare implementation or verification blockers in
 2. Create or link unblocking Kanban tasks with stable `idempotency_key` values and concrete acceptance criteria.
 3. Allow up to two PM <-> builder/reviewer cycles for the same blocker family. Each cycle must record blocker classification, task ids, evidence inspected, and remaining question.
 4. After two unsuccessful cycles, escalate to the orchestrator/human with evidence and a decision request instead of creating an unbounded remediation loop.
+## Docs publication/deployment target contract
+
+Before creating any docs publication or deployed-docs task, confirm there is an actual docs target. A valid target is either:
+
+- `SOFTWARE_FACTORY_DOCS_SPRITE_NAME` present and non-empty in the PM runtime environment, or
+- an explicit non-secret docs sprite/site target supplied by the upstream task or human.
+
+When creating the downstream docs task, include the target source and value in the handoff, for example `target_env_var: SOFTWARE_FACTORY_DOCS_SPRITE_NAME` and `target_sprite: hermes-sf-docs`. The sprite/site name is not a secret, but profile `.env` files and unrelated environment values remain user-owned and must not be read, printed, or inferred. If no target is available, do not create deployed-docs work that assumes hidden shared state; create local docs/handoff work only, or block/skip deployment with a clear non-secret reason.

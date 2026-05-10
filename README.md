@@ -44,3 +44,6 @@ Generated manifest: GENERATED_METADATA.json
 License: MPL-2.0
 
 This repository is generated. File issues and feature requests on https://github.com/jack-michaud/software-factory rather than editing this generated repository directly.
+## Optional docs deployment target
+
+This distribution declares `SOFTWARE_FACTORY_DOCS_SPRITE_NAME` as an optional env var. Set it in the installed profile's user-owned `.env` only when PM-created docs publication/deployment tasks should target a dedicated docs sprite. For this environment the expected non-secret value is `hermes-sf-docs`. Distribution installs/updates must not overwrite `.env`; use `distribution.yaml` and this guidance as the contract.
