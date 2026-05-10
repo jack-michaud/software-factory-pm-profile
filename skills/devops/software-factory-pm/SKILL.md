@@ -33,6 +33,23 @@ When a Software Factory change is valid to track but blocked by gates, create th
 
 For seed tasks, the PM can create the durable PM/builder/reviewer task while preserving role boundaries. Example lesson: in t_140783aa/t_21b2c8b6 the meta PM correctly decided that production PM owns the tenant delivery graph, but draft-only output hid the next state. Correct behavior is a durable production PM seed task, idempotently keyed, blocked until production profile install/test-profile validation/remote sprite guidance gates are green.
 
+## Source Maps for profile/source-update builder handoffs
+
+For every PM-created Builder task that updates Software Factory profile source, generated profile repositories, shared workflow guidance, docs/source-controlled distribution artifacts, or profile submodule pointers, PM must include an explicit Source Map before the Builder handoff. Do not ask Builder to infer source truth from old workspaces, installed profile directories, or generated runtime profile metadata.
+
+The Source Map must include all of the following:
+
+- canonical monorepo: `jack-michaud/software-factory`;
+- affected source paths, for example `profiles/<role>/...`, shared skills/docs paths, profile manifests, distribution files, or submodule pointer paths;
+- generated/installable role repositories or distributions, for example `jack-michaud/software-factory-<role>-profile` when applicable;
+- runtime install targets for downstream installer verification only, such as production/meta `~/.hermes/profiles/<profile>` targets; installed profile directories are not source of truth;
+- expected task/work-named branch convention for Builder work;
+- publisher/submodule follow-through: publish reviewed profile repo changes first, then publish canonical monorepo submodule pointer or shared-source updates when profile submodules or shared files changed;
+- reviewer verification expectations: source coordinates, affected paths, branches, commits, changed files/diffs, validation output, target-profile coverage matrix, consistency with related doctrine chains, and confirmation that no installed profile store was treated as canonical source;
+- disposable test-profile validation decision and rationale under the conditional validation doctrine.
+
+If Source Map entries, source coordinates, access authority, or ownership boundaries are unavailable or conflicting, PM must block or create an approval/decision gate with the exact missing public coordinate and unblock condition. PM must not delegate ambiguity to Builder or substitute private installed profile state for canonical source evidence. This guidance covers both `softwarefactorypm` and `metasoftwarefactorypm` installations that consume this PM distribution.
+
 ## Builder/reviewer blocker loop
 
 Builders and reviewers should declare implementation or verification blockers in comments and handoff metadata. PM owns the unblock loop:
