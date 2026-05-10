@@ -11,6 +11,7 @@ source:
 distribution_owned:
   - README.md
   - SOUL.md
+  - config.yaml
   - LICENSE
   - CHANGELOG.md
   - skills/devops/software-factory/

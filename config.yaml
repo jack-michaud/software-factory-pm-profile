@@ -1,0 +1,11 @@
+model:
+  default: gpt-5.5
+  provider: openai-codex
+  api_mode: chat_completions
+
+toolsets:
+  - hermes-cli
+
+skills:
+  external_dirs:
+    - ../../skills

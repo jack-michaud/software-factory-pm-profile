@@ -28,6 +28,12 @@ hermes profile update softwarefactorypm --yes
 
 Public/private boundary: credentials, runtime state, logs, memories, sessions, Kanban DB/workspaces, sprite credentials, SSH keys, OAuth tokens, API keys, and private Obsidian notes are not included.
 
+## Runtime configuration
+
+This distribution owns `config.yaml`. The file pins model execution to `gpt-5.5` via provider `openai-codex` using `chat_completions`, enables the public-safe `hermes-cli` toolset, and points `skills.external_dirs` at `../../skills` so controlled installs can reuse shared skill overlays without vendoring private/local skill trees.
+
+Authority for the `softwarefactorypm` role is governed by `SOUL.md` plus the role-specific bootstrap skill. This parity wave does not add a `role-capability-manifest.yaml` because the corresponding meta profile also uses SOUL as its authority source; publisher/docs remain the manifest-backed profiles.
+
 ## Publication provenance
 
 Version: v0.1.0
