@@ -320,8 +320,9 @@ Goal:
 - Create the production delivery graph for a small, reversible update on target Sprite <target-sprite>.
 - This PM task must not run sprite, sprite-env, fly, pi-sprite, or any mutation workflow.
 
-Required skills/context:
-- Load: kanban-worker, software-factory, remote-sprite-development.
+Task-level startup skills:
+- Default: leave task-level `skills` unset. Do not force role/project/built-in guidance such as `kanban-worker`, `software-factory`, or role-specific Software Factory skills in this copyable seed.
+- If reusable remote-sprite guidance is genuinely required at startup, first verify that `remote-sprite-development` is loadable in the exact target profile. If it is not verified loadable, inline the remote-sprite contract, evidence schema, checkpoint requirements, rollback requirements, and failure classes in the task body instead of forcing the skill.
 - Target Sprite: <target-sprite>
 - Remote app path: <remote-app-path or unknown; builder must discover with read-only sprite exec>
 - Required quality gates: pre-checkpoint, bounded remote mutation, readback diff, remote build/test if present, runtime route check, post-checkpoint, reviewer read-only verification.
