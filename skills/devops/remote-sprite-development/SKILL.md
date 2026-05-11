@@ -1,7 +1,7 @@
 ---
 name: remote-sprite-development
 description: Use when Software Factory production PM, builder, or reviewer tasks need to mutate or verify an existing remote Fly.io Sprite via explicit remote commands while preserving locality, checkpoint, evidence, rollback, and review guarantees.
-version: 1.0.0
+version: 1.0.1
 author: Hermes Agent
 license: MIT
 metadata:
@@ -53,7 +53,7 @@ PM/meta profiles route and specify. Builder/reviewer profiles own remote command
 
 Use this skill when:
 
-- a Kanban task targets an existing Sprite such as `hermes-blog`, `hermes-pst`, `hermes-mooreu-base`, or another production tenant Sprite;
+- a Kanban task targets an existing Sprite such as `<target-sprite>`, `tenant-app-staging`, or another named production tenant Sprite;
 - the task asks for a remote app change, deployment, service tweak, runtime validation, rollback check, or review of such work;
 - the task body mentions Software Factory production profiles, dogfood, remote Sprite development, checkpoint discipline, or remote evidence packages.
 
@@ -138,12 +138,12 @@ Builder completion metadata must include:
 
 ```json
 {
-  "target_sprite": "hermes-blog",
-  "tenant": "blog",
+  "target_sprite": "<target-sprite>",
+  "tenant": "<tenant>",
   "remote_workdir": "/home/sprite/app",
   "mutation_allowed": true,
-  "pre_checkpoint": {"handle": "v12", "command": "sprite -s hermes-blog exec -- bash -c 'sprite-env checkpoints create --comment ...'"},
-  "post_checkpoint": {"handle": "v13", "command": "sprite -s hermes-blog exec -- bash -c 'sprite-env checkpoints create --comment ...'"},
+  "pre_checkpoint": {"handle": "v12", "command": "sprite -s <target-sprite> exec -- bash -c 'sprite-env checkpoints create --comment ...'"},
+  "post_checkpoint": {"handle": "v13", "command": "sprite -s <target-sprite> exec -- bash -c 'sprite-env checkpoints create --comment ...'"},
   "remote_commands": {
     "inspect": ["..."],
     "checkpoint": ["..."],
@@ -154,7 +154,7 @@ Builder completion metadata must include:
   "diff_summary": "Remote git diff/readback summary, no secrets",
   "verification": [{"command": "...", "result": "pass", "evidence": "HTTP 200 / tests passed"}],
   "runtime_routes_checked": ["https://<sprite-url>/<route>"],
-  "rollback": {"available": true, "procedure": "sprite -s hermes-blog exec -- bash -c 'sprite-env checkpoints restore v12'"},
+  "rollback": {"available": true, "procedure": "sprite -s <target-sprite> exec -- bash -c 'sprite-env checkpoints restore v12'"},
   "open_risks": [],
   "failure_class": null
 }
@@ -168,10 +168,10 @@ Reviewer completion metadata must include:
 
 ```json
 {
-  "target_sprite": "hermes-blog",
-  "tenant": "blog",
+  "target_sprite": "<target-sprite>",
+  "tenant": "<tenant>",
   "evidence_reviewed": ["builder metadata", "remote diff summary", "verification output"],
-  "independent_remote_commands": ["sprite -s hermes-blog exec -- bash -c 'cd /home/sprite/app && git status --short'"],
+  "independent_remote_commands": ["sprite -s <target-sprite> exec -- bash -c 'cd <remote-app-path> && git status --short'"],
   "remote_state_matches_builder_claims": true,
   "verification_passed": true,
   "decision": "pass",
@@ -307,29 +307,29 @@ Safety:
 - Do not pass local-only verification as remote proof.
 ```
 
-## Non-Destructive Dry Run: tenant=blog PM Seed Body
+## Non-Destructive Dry Run: Generic PM Seed Body
 
-This is an example to copy into a future task body. Do not dispatch it from this skill.
+This is a neutral example to copy into a future task body. Replace all placeholders with the approved tenant, target Sprite, and profile names before dispatching it. Do not dispatch it from this skill as-is.
 
 ```text
-Title: Plan tenant=blog remote Sprite dogfood for homepage copy update
-Assignee: metasoftwarefactorypm
-Tenant: blog
+Title: Plan tenant=<tenant> remote Sprite dogfood for <small-change>
+Assignee: <production-pm-profile>
+Tenant: <tenant>
 
 Goal:
-- Create the production delivery graph for a small homepage copy update on target Sprite hermes-blog.
+- Create the production delivery graph for a small, reversible update on target Sprite <target-sprite>.
 - This PM task must not run sprite, sprite-env, fly, pi-sprite, or any mutation workflow.
 
 Required skills/context:
 - Load: kanban-worker, software-factory, remote-sprite-development.
-- Target Sprite: hermes-blog
-- Remote app path: unknown; builder must discover with read-only sprite exec.
+- Target Sprite: <target-sprite>
+- Remote app path: <remote-app-path or unknown; builder must discover with read-only sprite exec>
 - Required quality gates: pre-checkpoint, bounded remote mutation, readback diff, remote build/test if present, runtime route check, post-checkpoint, reviewer read-only verification.
 - Interim tooling decision: pi-sprite is not required if sprite exec satisfies checkpoint/evidence/rollback/verification; reviewer must block and recommend pi-sprite only if sprite exec cannot satisfy those requirements.
 
 PM acceptance criteria:
-1. Create a builder child task assigned to the production builder with mutation authority limited to hermes-blog and the remote-sprite-development evidence schema.
-2. Create a reviewer child task assigned to the production reviewer depending on the builder.
+1. Create a builder child task assigned to <production-builder-profile> with mutation authority limited to <target-sprite> and the remote-sprite-development evidence schema.
+2. Create a reviewer child task assigned to <production-reviewer-profile> depending on the builder.
 3. Include failure classes: contract_missing, locality_violation, checkpoint_failure, rollback_gap, evidence_gap, tooling_failure, skill_context_failure, implementation_failure, review_failure, human_decision_blocker.
 4. Complete with child task IDs only; no Sprite commands run in this PM task.
 ```
