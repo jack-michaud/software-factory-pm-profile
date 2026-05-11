@@ -12,3 +12,7 @@ Generated Hermes profile distribution for Software Factory role: pm.
 - Publication gates: human approval, dry-run validation, and publisher execution completed.
 
 Branch protection is intentionally deferred for v0 by human decision.
+
+## Unreleased
+
+- Added progressive-disclosure Kanban task-spec guidance so root profile instructions remain concise maps while detailed PM/task-writing doctrine lives in linked references with explicit `When X, read Y` triggers. The guidance defines required task fields, evidence-linked acceptance criteria, and role-specific routing for future maintainers.
