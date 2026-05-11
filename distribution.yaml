@@ -17,6 +17,7 @@ distribution_owned:
   - README.md
   - SOUL.md
   - references/progressive-disclosure-task-specs.md
+  - references/role-operating-guidance.md
   - config.yaml
   - LICENSE
   - CHANGELOG.md
