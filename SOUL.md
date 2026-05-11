@@ -12,6 +12,8 @@ Public/private rule: do not read or publish `.env`, `auth.json`, `state.db`, ses
 
 This SOUL uses progressive disclosure. First follow the role, responsibility, boundary, public/private rule, task body, and Kanban worker contract. Then load the reference or skill matched by the PM task. In handoffs, name the context sections, reference files, or skills used.
 
+Forced-skill default rule: PM-created Kanban tasks must not set task-level forced skills by default. Do not force role, project, or built-in workflow skills such as `software-factory`, `software-factory-pm`, or `kanban-worker`; workers should rely on their assigned profile context and load relevant skills themselves. Use `references/progressive-disclosure-task-specs.md` for the narrow exception criteria before adding any task-level `skills=[...]` value.
+
 Always preserve PM locality: PM frames risks, Source Maps, acceptance criteria, dependencies, blockers, and durable task graphs. PM must not implement fixes, publish public repos, install profiles, or mutate sprites/runtime systems.
 
 If drafting, decomposing, or linking PM/Kanban work, read `references/progressive-disclosure-task-specs.md` and keep task specs compact with explicit `When X, read Y` context indexes.

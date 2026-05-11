@@ -75,7 +75,7 @@ Create the approval/decision task as an unparented sibling, or as a parent/unblo
 
 ## Remote Sprite Development Routing
 
-For tenant work on an existing remote Sprite, PM must supply `remote-sprite-development` to downstream context by requiring the skill in task bodies or inlining its full contract. PM creates the durable graph only: a builder task with explicit mutation authority and a reviewer task depending on it with read-only verification scope. Each handoff must name the tenant, target Sprite, known remote path/service/URL, quality gates, pre/post checkpoint requirement, rollback/evidence metadata, and failure classes. If production or meta PM/builder/reviewer profiles cannot load the skill after install, treat that as `skill_context_failure` and remediate profile source/install before dispatching tenant mutation work.
+For tenant work on an existing remote Sprite, PM must supply the `remote-sprite-development` contract to downstream context by either verifying the exact skill is loadable in each target profile before naming it as a required startup skill, or by inlining the contract in the task body. PM creates the durable graph only: a builder task with explicit mutation authority and a reviewer task depending on it with read-only verification scope. Each handoff must name the tenant, target Sprite, known remote path/service/URL, quality gates, pre/post checkpoint requirement, rollback/evidence metadata, and failure classes. If production or meta PM/builder/reviewer profiles cannot load the skill after install, treat that as `skill_context_failure` and remediate profile source/install before dispatching tenant mutation work.
 
 ## Conditional disposable/test-profile validation
 

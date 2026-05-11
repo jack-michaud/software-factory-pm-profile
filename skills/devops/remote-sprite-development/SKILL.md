@@ -72,7 +72,7 @@ Every production task that mutates or verifies a Sprite must include the followi
 - remote app path on the Sprite if known,
 - expected service name/port/URL if known,
 - acceptance criteria and quality gates,
-- required skills: `kanban-worker`, `software-factory`, `remote-sprite-development`, plus app-specific skills when available,
+- context delivery: inline this contract in the task body, or name only startup-required skills whose exact names have public-safe target-profile loadability evidence (do not force `kanban-worker`, role skills, or project skills by default),
 - whether mutation is allowed or the task is review/read-only,
 - protected data/routes and anything explicitly out of scope.
 
@@ -241,7 +241,7 @@ Goal:
 - Do not mutate the Sprite in this PM task.
 
 Required context:
-- Load skills: kanban-worker, software-factory, remote-sprite-development.
+- Do not force task-level role/project/built-in skills by default. If `remote-sprite-development` must be a required startup skill, include public-safe evidence that the exact skill name is loadable in the target PM profile; otherwise inline this remote-sprite contract in the task body.
 - Target Sprite: <target-sprite>
 - Remote app path: <remote-app-path or unknown; builder must discover remotely>
 - Service/URL: <service name, port, URL if known>
@@ -261,7 +261,7 @@ PM acceptance criteria:
 Title: Implement <change> on remote Sprite <target-sprite>
 Assignee: <builder-profile>
 Tenant: <tenant>
-Skills: kanban-worker, software-factory, software-factory-builder, remote-sprite-development, sprite-exec, <app-skill>
+Skills: unset by default. Add only verified loadable, startup-required external workflow/app skills, or inline this contract if `remote-sprite-development` is unavailable.
 
 Mutation authority: allowed only on target Sprite <target-sprite>.
 Locality: $HERMES_KANBAN_WORKSPACE is orchestration scratch only. All authoritative app work must be remote.
@@ -289,7 +289,7 @@ Title: Review remote Sprite change on <target-sprite>
 Assignee: <reviewer-profile>
 Tenant: <tenant>
 Parents: <builder-task-id>
-Skills: kanban-worker, software-factory, remote-sprite-development, sprite-exec, <app-skill>
+Skills: unset by default. Add only verified loadable, startup-required external workflow/app skills, or inline this contract if `remote-sprite-development` is unavailable.
 
 Scope: read-only remote verification unless explicitly approved otherwise.
 Target Sprite: <target-sprite>
