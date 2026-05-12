@@ -45,6 +45,15 @@ ROLE_BY_ASSIGNEE = {
     "docs": "docs",
     "installer": "installer",
 }
+ROLE_SIGNAL_PRIORITY = (
+    "reviewer",
+    "builder",
+    "publisher",
+    "installer",
+    "docs",
+    "orchestrator",
+    "pm",
+)
 ROLE_REQUIRED_EVIDENCE = {
     "builder": ["repo_url", "local_worktree", "branch", "commit", "diff_stat", "changed_files", "validation"],
     "reviewer": ["outcome", "coverage", "findings", "review_subject_task_ids"],
@@ -89,18 +98,31 @@ def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def role_from_text(text: str) -> Optional[str]:
+    lowered = text.lower()
+    for token in ROLE_SIGNAL_PRIORITY:
+        if token in lowered:
+            return ROLE_BY_ASSIGNEE[token]
+    return None
+
+
 def task_role(task: Dict[str, Any], runs: Optional[List[Dict[str, Any]]] = None) -> str:
-    text = " ".join(str(x or "") for x in [task.get("assignee"), task.get("title"), task.get("body")]).lower()
-    for token, role in ROLE_BY_ASSIGNEE.items():
-        if token in text:
-            return role
+    """Classify task role using actor fields before incidental prose.
+
+    Assignee and run profile names are authoritative role signals. Title/body
+    prose is a fallback only, because task descriptions often mention other
+    roles (for example a reviewer task reviewing a PM report).
+    """
+    assignee_role = role_from_text(str(task.get("assignee") or ""))
+    if assignee_role:
+        return assignee_role
     if runs:
         for run in runs:
-            profile = str(run.get("profile") or "").lower()
-            for token, role in ROLE_BY_ASSIGNEE.items():
-                if token in profile:
-                    return role
-    return "unknown"
+            profile_role = role_from_text(str(run.get("profile") or ""))
+            if profile_role:
+                return profile_role
+    prose_role = role_from_text(" ".join(str(x or "") for x in [task.get("title"), task.get("body")]))
+    return prose_role or "unknown"
 
 
 def safe_text(value: Any, max_len: int = 12000) -> str:

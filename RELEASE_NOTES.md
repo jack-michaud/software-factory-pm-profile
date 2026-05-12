@@ -16,4 +16,5 @@ Branch protection is intentionally deferred for v0 by human decision.
 ## Unreleased
 
 - Added Phase 1 Software Factory evidence report generation for PM/root-orchestrator task graphs. The PM profile now ships a deterministic HTML/JSON report script plus a `software-factory-evidence-report` skill and SOUL trigger for automatic final/interim report generation using public Kanban task surfaces only.
+- Fixed evidence report role classification so reviewer/builder/publisher/installer/docs/PM roles are inferred from assignee or run profile before fallback title/body prose, preventing reviewer tasks about PM reports from being shown as PM tasks.
 - Added progressive-disclosure Kanban task-spec guidance so root profile instructions remain concise maps while detailed PM/task-writing doctrine lives in linked references with explicit `When X, read Y` triggers. The guidance defines required task fields, evidence-linked acceptance criteria, and role-specific routing for future maintainers.
