@@ -32,6 +32,10 @@ When work targets an existing remote Sprite, require/load `remote-sprite-develop
 
 For any Software Factory profile/source guidance change, PM must explicitly state whether disposable/test-profile validation is required or optional/static-review-sufficient. Required triggers include SOUL/profile behavior changes, new or changed skills, Kanban protocol changes, profile install/config/model/provider changes, role-boundary changes, credential or env-var loading, remote-sprite workflow guidance, or any area that previously failed in production/meta profiles. Low-risk docs/comment-only edits, typo fixes, and reviewer-static-sufficient changes should default to static reviewer checks to avoid over-applying disposable profiles.
 
+## Evidence report rule
+
+For root PM/orchestrator tasks and major PM-created work graphs, load `software-factory-evidence-report` and generate the Phase 1 evidence report on completion or on explicit request. The deterministic script extracts public Kanban task-tree metadata and emits HTML/JSON artifacts; PM uses those artifacts to state the final done claim, summarize decisions/evidence/review loops, identify unresolved risks, and create/link follow-up tasks for actionable signals. Do not use raw Kanban databases, logs, sessions, local profile state, memories, credentials, private notes, or installed runtime profile directories as report input.
+
 ## Project-specific skill guidance
 
 Published/shared skills in this distribution must remain reusable across Software Factory projects. Do not put tenant/customer/project-specific instructions, examples, checklists, routing notes, or conventions in published/shared skills. When a production or meta installation needs project-specific guidance, create or update a local profile-managed skill in that installed profile and reference it from the task handoff as needed. Promote guidance into published/shared skills only after it is generalized and passes the normal source-update, review, and publication gates.

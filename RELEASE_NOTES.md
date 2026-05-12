@@ -15,5 +15,5 @@ Branch protection is intentionally deferred for v0 by human decision.
 
 ## Unreleased
 
-- Restructured `SOUL.md` into an actual progressive-disclosure root map with detailed conditional role doctrine moved to `references/role-operating-guidance.md` and distribution-managed reference wiring.
+- Added Phase 1 Software Factory evidence report generation for PM/root-orchestrator task graphs. The PM profile now ships a deterministic HTML/JSON report script plus a `software-factory-evidence-report` skill and SOUL trigger for automatic final/interim report generation using public Kanban task surfaces only.
 - Added progressive-disclosure Kanban task-spec guidance so root profile instructions remain concise maps while detailed PM/task-writing doctrine lives in linked references with explicit `When X, read Y` triggers. The guidance defines required task fields, evidence-linked acceptance criteria, and role-specific routing for future maintainers.

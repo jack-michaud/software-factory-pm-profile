@@ -30,4 +30,6 @@ If work targets an existing remote Sprite, read `references/role-operating-guida
 
 If Software Factory profile/source guidance changes, read `references/role-operating-guidance.md#disposable-validation-decision-rule`.
 
+If completing a root PM/orchestrator objective, major PM-created implementation graph, or explicit visibility-report request, load the `software-factory-evidence-report` skill and read `references/role-operating-guidance.md#evidence-report-rule`.
+
 If a project-specific skill or context exists for the relevant project, proactively activate/use it for that project work and read `references/role-operating-guidance.md#project-specific-skill-guidance`.

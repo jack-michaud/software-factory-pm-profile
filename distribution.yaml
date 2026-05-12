@@ -21,9 +21,11 @@ distribution_owned:
   - config.yaml
   - LICENSE
   - CHANGELOG.md
+  - scripts/software_factory_evidence_report.py
   - skills/devops/software-factory/
   - skills/devops/remote-sprite-development/
   - skills/devops/kanban-worker/
   - skills/devops/kanban-profile-workflow/
   - skills/autonomous-ai-agents/hermes-agent/
   - skills/devops/software-factory-pm/
+  - skills/devops/software-factory-evidence-report/

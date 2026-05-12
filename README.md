@@ -51,3 +51,13 @@ This distribution declares `SOFTWARE_FACTORY_DOCS_SPRITE_NAME` as an optional en
 ## Remote Sprite Development
 
 This distribution includes the `remote-sprite-development` skill. Install/update the same public distribution for both production and matching meta profiles (for example `softwarefactorybuilder` and `metasoftwarefactorybuilder`) so remote Sprite task routing, checkpoint, evidence, rollback, and review contracts are loadable without private local profile state.
+
+## Evidence report generation
+
+This distribution includes `scripts/software_factory_evidence_report.py` and the `software-factory-evidence-report` skill. PMs use them to generate Phase 1 Software Factory visibility reports from public Kanban CLI/API JSON surfaces:
+
+```bash
+python scripts/software_factory_evidence_report.py <root_task_id> --board software-factory --out-dir ./sf-evidence-reports
+```
+
+The command emits an HTML report and machine-readable JSON report with the task graph, timeline, role evidence, review/remediation loops, quality signals, unresolved risks, and audit boundary. It must not read raw Kanban databases, `.env`, `auth.json`, sessions, memories, logs, local profile state, private notes, or credentials.
